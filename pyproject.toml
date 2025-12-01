@@ -16,4 +16,5 @@ dependencies = [
     "seaborn>=0.13",
     "openpyxl",
     "statsmodels",
+    "tqdm",
 ]
