@@ -11,8 +11,10 @@
                 "ms-python.vscode-pylance",
                 "ms-toolsai.jupyter",
                 "openai.chatgpt",
-                "google.geminicodeassist"
-            ]
+                "google.geminicodeassist",
+                "ms-python.isort",
+                "ms-toolsai.datawrangler",
+                "ms-python.black-formatter"            ]
         }
     },
     "settings": {
