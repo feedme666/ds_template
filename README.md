@@ -1,23 +1,22 @@
-# Data Science Template & Container Starter
+# Data Science Directory Template
 
-This repository couples a production-ready data science directory layout with the pieces you need to spin up a reproducible Docker/Dev Container workspace. Use it as a scaffold for analytics experiments, notebook-first exploration, and API handoff once your models are ready.
+This repository is a lightweight reference for structuring a data science project. It now ships only the directory layout and placeholder files so you can bootstrap a new project quickly without inheriting a specific toolchain, dependency list, or container image.
 
-## Why This Template
-- Opinionated folders that mirror a typical data-science lifecycle, from raw data capture to packaged models.
-- Python environment is pinned with `pyproject.toml`/`uv.lock` so dependency resolution stays deterministic.
-- `.devcontainer/devcontainer.json` mounts the repo into a Docker container (`python-base:latest`) so everyone codes against the same toolchain.
-- Works equally well for notebook-driven work or Python package style development inside `src/`.
+## How to Use This Template
+- Copy or fork the repository and tailor folder names to your workflow.
+- Create your own virtual environment (e.g., `python -m venv .venv`, `conda create`, or your team's standard). Install whatever packages your project requires.
+- Drop in datasets, notebooks, and code modules as you progress through discovery, experimentation, and delivery phases.
 
-## Directory Map
+## Directory Overview
 ```bash
 .
 ├── data/                         # raw + processed datasets (kept locally, not versioned)
-├── docs/                         # API notes, specs, decisions
+├── docs/                         # design notes, specs, ADRs
 ├── models/                       # serialized artifacts + logs
-├── notebooks/                    # 01→04 numbered workflow
-├── references/                   # papers, datasets licenses, etc.
+├── notebooks/                    # numbered exploratory notebooks
+├── references/                   # external resources, papers, datasets licenses
 ├── reports/
-│   └── figures/                  # static exports for stakeholders
+│   └── figures/                  # static outputs for stakeholders
 └── src/
     ├── config/                   # settings, secrets templates
     ├── data/                     # ingestion & loaders
@@ -27,39 +26,12 @@ This repository couples a production-ready data science directory layout with th
     └── main.py                   # orchestration entry point
 ```
 
-## Folder Roles
-- **data**: `raw/` holds immutable source data. `processed/` stores cleaned tables or feature sets ready for modeling. Keep anything sensitive out of version control.
-- **notebooks**: Four numbered stages (prep → EDA → features → training). Prefixing notebooks with numbers enforces execution order when collaborating.
-- **src**: Production-grade code that mirrors notebook logic. Transition mature experiments here so they can be tested, linted, and containerized.
-- **reports**: Slide decks, KPI exports, and publication-ready figures. Use `reports/reports.csv` as a tracker for runs or stakeholder notes.
-- **docs** & **references**: Capture architectural decisions, API contracts, data dictionaries, and any supporting literature for compliance reviews.
-- **models/logs**: Persist model binaries, metadata, and training logs for auditability.
+## Suggested Workflow
+- **data**: Keep immutable sources in `raw/` and derived tables in `processed/`. Store sensitive files outside version control.
+- **notebooks**: Use numeric prefixes (e.g., `01_eda.ipynb`) to document the lifecycle from exploration to modeling.
+- **src**: Promote reusable logic from notebooks into testable modules. Mirror notebook steps so production paths stay aligned with experimentation.
+- **reports**: Capture stakeholder-ready figures, KPIs, or narrative write-ups for each iteration.
+- **docs/references**: Log assumptions, schema contracts, and citations so decisions remain auditable.
+- **models**: Persist trained artifacts plus metadata (hyperparameters, metrics) to aid reproducibility.
 
-## Local Python Workflow
-1. Install [uv](https://github.com/astral-sh/uv) (or use `pip install uv`).
-2. Sync dependencies into a virtual environment:  
-   ```bash
-   uv sync
-   ```
-3. Activate the environment (uv manages `.venv` automatically):  
-   ```bash
-   source .venv/bin/activate
-   ```
-4. Launch JupyterLab when you are ready to explore:  
-   ```bash
-   uv run jupyter lab --notebook-dir=notebooks
-   ```
-5. Use `uv run python src/main.py` to execute the orchestrated pipeline.
-
-## Recommended Workflow
-- Keep exploratory notebooks lightweight; migrate stable code to `src/` modules with tests under `src/test/`.
-- Store credentials or environment secrets in `src/config/` templates and load them via environment variables rather than committing plaintext secrets.
-- Use `models/logs/` to snapshot every training run (hyperparameters + metrics) so you can reproduce results during deployment reviews.
-- When promoting a model, export deliverables into `reports/figures/` alongside the supporting narrative for stakeholders.
-
-## Contributing
-1. **Fork & clone** the repository.
-2. **Create a branch** (`git checkout -b feature/my-improvement`).
-3. **Run tests/notebooks** relevant to your change.
-4. **Commit & push**, then open a PR that links to any related issues.
-5. **Discuss & iterate** on review feedback; keep documentation updated alongside code changes.
+Because the repository no longer prescribes Docker, uv, or other tooling, each team member is responsible for configuring their own environment, linters, and CI steps according to project needs.
